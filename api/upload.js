@@ -1,4 +1,4 @@
-const multer = require('multer');
+import multer from 'multer';
 
 // 使用内存存储，适合Vercel无服务器环境
 const storage = multer.memoryStorage();
@@ -18,7 +18,7 @@ const upload = multer({
   }
 });
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   // 只处理POST请求
   if (req.method !== 'POST') {
     return res.status(405).json({
@@ -51,7 +51,7 @@ module.exports = (req, res) => {
       // 生成Data URL
       const dataUrl = `data:application/pdf;base64,${base64Content}`;
       
-      res.json({
+      res.status(200).json({
         success: true,
         data: {
           fileName: req.file.originalname,
@@ -68,4 +68,4 @@ module.exports = (req, res) => {
       });
     }
   });
-}; 
+} 

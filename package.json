@@ -2,6 +2,7 @@
   "name": "file-upload-service",
   "version": "1.0.0",
   "description": "简单的文件上传服务，用于获取PDF文件的在线URL",
+  "type": "module",
   "main": "api/health.js",
   "scripts": {
     "start": "node api/health.js",
