@@ -3,7 +3,6 @@ const multer = require('multer');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // 启用CORS
 app.use(cors());
@@ -25,6 +24,19 @@ const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024 // 限制10MB
   }
+});
+
+// 根路径 - 显示服务信息
+app.get('/', (req, res) => {
+  res.json({
+    message: '文件上传服务已启动',
+    service: 'file-upload-service',
+    endpoints: {
+      health: '/health',
+      upload: '/upload'
+    },
+    timestamp: new Date().toISOString()
+  });
 });
 
 // 健康检查
@@ -80,8 +92,5 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`📁 文件上传服务已启动，端口: ${PORT}`);
-  console.log(`🔗 健康检查: http://localhost:${PORT}/health`);
-  console.log(`📤 文件上传: http://localhost:${PORT}/upload`);
-}); 
+// 导出app用于Vercel
+module.exports = app; 
